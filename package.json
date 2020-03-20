@@ -1,0 +1,17 @@
+{
+  "name": "module-api-client",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idevelop/module-api-client.git"
+  },
+  "keywords": [],
+  "author": "Andrei Gheorghe <andreig@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/idevelop/module-api-client#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
