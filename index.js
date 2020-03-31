@@ -22,15 +22,6 @@ const createProxy = (prefix = []) => {
   return new Proxy(f, proxyHandler);
 };
 
-// Used to recreate and throw the remote exception
-const newObjectWithClassName = (name, extra) => {
-  const C = class {};
-  Object.defineProperty(C, 'name', { value: name });
-  const o = new C();
-  Object.assign(o, extra);
-  return o;
-};
-
 const callRemoteFunction = async (apiEndpoint, functionPath, arguments) => {
   const endpoint = apiEndpoint + functionPath.join('/');
   const response = await fetch(endpoint, {
@@ -45,13 +36,15 @@ const callRemoteFunction = async (apiEndpoint, functionPath, arguments) => {
     throw new ReferenceError(`${functionPath.join('.')} is not defined`);
   }
 
-  const data = await response.json();
+  const text = await response.text();
 
   if (response.status === 500) {
-    throw newObjectWithClassName(data.name, data.value);
+    throw JSON.parse(text);
   }
 
-  return data;
+  if (text.length > 0) {
+    return JSON.parse(text);
+  }
 };
 
 module.exports = ({ endpoint = '/' } = { endpoint: '/' }) =>
