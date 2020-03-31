@@ -48,8 +48,7 @@ const callRemoteFunction = async (apiEndpoint, functionPath, arguments) => {
   const data = await response.json();
 
   if (response.status === 500) {
-    const exceptionType = response.headers.get('x-exception');
-    throw newObjectWithClassName(exceptionType, data);
+    throw newObjectWithClassName(data.name, data.value);
   }
 
   return data;
